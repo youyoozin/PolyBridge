@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<div class="card mb-3">
+  <div class="card-body">
+    <p>{{ post.content }}</p>
+    <span class="badge bg-secondary">출처: {{ post.source }}</span>
+    <span class="badge bg-light text-dark">작성일: {{ post.created_at.strftime('%Y-%m-%d') }}</span>
+  </div>
+</div>
+<h4>댓글 작성</h4>
+<form method="post" class="row g-3 mb-4">
+  <div class="col-md-12">
+    <label class="form-label">댓글</label>
+    <textarea name="content" class="form-control" rows="3" required></textarea>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">출처</label>
+    <input name="source" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">견해</label>
+    <select name="stance" class="form-select">
+      <option value="찬성">찬성</option>
+      <option value="반대">반대</option>
+      <option value="중립">중립</option>
+    </select>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-info">댓글 등록</button>
+  </div>
+</form>
+<h4>댓글 목록</h4>
+{% for c in comments %}
+<div class="card mb-2">
+  <div class="card-body">
+    <p>{{ c.content }} <span class="badge bg-light text-dark">{{ c.stance }}</span></p>
+    <span class="badge bg-secondary">출처: {{ c.source }}</span>
+    <span class="badge bg-light text-dark">작성일: {{ c.created_at.strftime('%Y-%m-%d') }}</span>
+  </div>
+</div>
+{% else %}
+<p>댓글이 없습니다.</p>
+{% endfor %}
+<a href="/" class="btn btn-outline-secondary mt-3">메인으로</a>
+{% endblock %}

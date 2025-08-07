@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>실시간 인기 검색어</h2>
+<div class="mb-4">
+  {% for kw in keywords %}
+    <a href="/search/{{ kw }}" class="btn btn-outline-primary m-1">{{ kw }}</a>
+    <a href="/chat/{{ kw }}" class="btn btn-outline-success m-1">채팅방</a>
+  {% endfor %}
+</div>
+<a href="/" class="btn btn-secondary">메인으로</a>
+{% endblock %}

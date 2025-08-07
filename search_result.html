@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>검색어 "{{ keyword }}" 관련 게시물</h2>
+{% for post in posts %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><a href="/post/{{ post.id }}">{{ post.title }}</a></h5>
+    <p class="card-text">{{ post.content[:80] }}{% if post.content|length > 80 %}...{% endif %}</p>
+    <span class="badge bg-secondary">출처: {{ post.source }}</span>
+    <span class="badge bg-light text-dark">작성일: {{ post.created_at.strftime('%Y-%m-%d') }}</span>
+    <span class="badge bg-info">좋아요: <span id="like-count-{{ post.id }}">{{ post.likes }}</span></span>
+    <button class="btn btn-sm btn-outline-danger" onclick="likePost({{ post.id }})">좋아요</button>
+  </div>
+</div>
+{% else %}
+<p>관련 게시물이 없습니다.</p>
+{% endfor %}
+<h3>관련 댓글</h3>
+{% for comment in comments %}
+<div class="card mb-2">
+  <div class="card-body">
+    <p>{{ comment.content }} <span class="badge bg-light text-dark">{{ comment.stance }}</span></p>
+    <span class="badge bg-secondary">출처: {{ comment.source }}</span>
+    <span class="badge bg-light text-dark">작성일: {{ comment.created_at.strftime('%Y-%m-%d') }}</span>
+  </div>
+</div>
+{% else %}
+<p>관련 댓글이 없습니다.</p>
+{% endfor %}
+<script>
+function likePost(postId) {
+  fetch('/like/' + postId, {method: 'POST'})
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('like-count-' + postId).innerText = data.likes;
+    });
+}
+</script>
+<a href="/trending" class="btn btn-secondary mt-3">실시간 검색어로 돌아가기</a>
+{% endblock %}

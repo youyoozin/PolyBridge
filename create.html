@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>게시물 작성</h2>
+<form method="post" class="row g-3">
+  <div class="col-md-12">
+    <label class="form-label">제목</label>
+    <input name="title" class="form-control" required>
+  </div>
+  <div class="col-md-12">
+    <label class="form-label">내용</label>
+    <textarea name="content" class="form-control" rows="5" required></textarea>
+  </div>
+  <div class="col-md-12">
+    <label class="form-label">출처</label>
+    <input name="source" class="form-control" required>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-warning">등록</button>
+  </div>
+</form>
+{% endblock %}

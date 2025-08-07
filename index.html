@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+  <div class="row g-4 mb-4">
+    <!-- 단체 채팅방 카드 -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <div style="font-size:2.5rem;">💬</div>
+          <h5 class="card-title mt-2">단체 채팅방</h5>
+          <p class="card-text">모두가 참여하는 실시간 단체 채팅방입니다.</p>
+          <a href="/chatroom" class="btn btn-success w-100">입장하기</a>
+        </div>
+      </div>
+    </div>
+    <!-- 1:1 채팅방 카드 -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <div style="font-size:2.5rem;">👤</div>
+          <h5 class="card-title mt-2">익명 1:1 채팅방</h5>
+          <p class="card-text">익명으로 1:1 대화를 나눌 수 있는 공간입니다.</p>
+          <a href="#" onclick="showPrivateChatModal()" class="btn btn-primary w-100">입장하기</a>
+        </div>
+      </div>
+    </div>
+    <!-- 게시판 카드 -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <div style="font-size:2.5rem;">📰</div>
+          <h5 class="card-title mt-2">게시판</h5>
+          <p class="card-text">정치, 자유, 토론 등 다양한 게시판을 이용하세요.</p>
+          <a href="#post-list" class="btn btn-outline-secondary w-100">게시글 보기</a>
+        </div>
+      </div>
+    </div>
+    <!-- 마이페이지 카드 -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <div style="font-size:2.5rem;">🙍‍♂️</div>
+          <h5 class="card-title mt-2">마이페이지</h5>
+          <p class="card-text">내 정보, 내 글, 내 댓글을 확인할 수 있습니다.</p>
+          <a href="/mypage" class="btn btn-outline-info w-100">마이페이지</a>
+        </div>
+      </div>
+    </div>
+    <!-- 자료실 카드 -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <div style="font-size:2.5rem;">📁</div>
+          <h5 class="card-title mt-2">자료실</h5>
+          <p class="card-text">유용한 자료와 정보를 공유하는 공간입니다.</p>
+          <a href="#" class="btn btn-outline-warning w-100">자료실 가기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1:1 채팅방 입장 모달 -->
+<div class="modal fade" id="privateChatModal" tabindex="-1" aria-labelledby="privateChatModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="privateChatModalLabel">1:1 채팅방 입장</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="privateChatTarget" class="form-control" placeholder="상대방 닉네임 또는 이름 입력">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" onclick="goPrivateChat()">입장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="post-list" class="container mt-5">
+  <h3 class="mb-4">게시글 목록</h3>
+  <div class="row g-4">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="card-title mb-0"><a href="/post/{{ post.id }}">{{ post.title }}</a></h5>
+            <span class="badge bg-info text-dark">좋아요 <span id="like-count-{{ post.id }}">{{ post.likes }}</span></span>
+          </div>
+          <p class="card-text text-secondary">{{ post.content[:80] }}{% if post.content|length > 80 %}...{% endif %}</p>
+          <div class="mb-2">
+            <span class="badge bg-secondary">출처: {{ post.source }}</span>
+            <span class="badge bg-light text-dark">작성일: {{ post.created_at.strftime('%Y-%m-%d') }}</span>
+            <span class="badge bg-primary">작성자: {{ post.user.name if post.user else post.user_id }}</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-danger" onclick="likePost('{{ post.id }}')">좋아요</button>
+            {% if session.get('user_id') == post.user_id %}
+            <form method="post" action="/delete/{{ post.id }}" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+              <button type="submit" class="btn btn-sm btn-outline-secondary ms-2">삭제</button>
+            </form>
+            {% endif %}
+            <a href="/chat/{{ post.title }}" class="btn btn-sm btn-success ms-2">이 글 주제 채팅방</a>
+            {% if post.user_id and session.get('user_id') != post.user_id %}
+            <a href="/chat/{{ post.user.name if post.user else post.user_id }}" class="btn btn-sm btn-outline-primary ms-2">작성자와 1:1 채팅</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p>게시물이 없습니다.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="mt-5">
+  <h3>실시간 인기 검색어</h3>
+  <div class="d-flex flex-wrap gap-2">
+    {% for kw in trending_keywords %}
+      <a href="/search/{{ kw }}" class="btn btn-outline-primary">{{ kw }}</a>
+      <a href="/chat/{{ kw }}" class="btn btn-outline-success">채팅방</a>
+    {% endfor %}
+  </div>
+</div>
+<script type="text/javascript">
+function likePost(postId) {
+  fetch('/like/' + postId, {method: 'POST'})
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      document.getElementById('like-count-' + postId).innerText = data.likes;
+    });
+}
+
+// 1:1 채팅방 모달
+function showPrivateChatModal() {
+  var modal = new bootstrap.Modal(document.getElementById('privateChatModal'));
+  document.getElementById('privateChatTarget').value = '';
+  modal.show();
+}
+function goPrivateChat() {
+  var target = document.getElementById('privateChatTarget').value.trim();
+  if(target) {
+    window.location.href = '/chat/' + encodeURIComponent(target);
+  }
+}
+
+</script>
+{% endblock %}
+

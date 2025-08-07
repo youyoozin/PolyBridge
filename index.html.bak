@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>최신 게시물</h2>
+{% for post in posts %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><a href="/post/{{ post.id }}">{{ post.title }}</a></h5>
+    <p class="card-text">{{ post.content[:80] }}{% if post.content|length > 80 %}...{% endif %}</p>
+    <span class="badge bg-secondary">출처: {{ post.source }}</span>
+    <span class="badge bg-light text-dark">작성일: {{ post.created_at.strftime('%Y-%m-%d') }}</span>
+    <span class="badge bg-info">좋아요: <span id="like-count-{{ post.id }}">{{ post.likes }}</span></span>
+    <button class="btn btn-sm btn-outline-danger" onclick="likePost({{ post.id }})">좋아요</button>
+     {% if session.get('user_id') == post.user_id %}
+     <form method="post" action="/delete/{{ post.id }}" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+       <button type="submit" class="btn btn-sm btn-outline-secondary ms-2">삭제</button>
+     </form>
+     {% endif %}
+  </div>
+</div>
+{% else %}
+<p>게시물이 없습니다.</p>
+{% endfor %}
+
+<h3>실시간 인기 검색어</h3>
+{% for kw in trending_keywords %}
+  <a href="/search/{{ kw }}" class="btn btn-outline-primary m-1">{{ kw }}</a>
+  <a href="/chat/{{ kw }}" class="btn btn-outline-success m-1">채팅방</a>
+{% endfor %}
+<script type="text/javascript">
+function likePost(postId) {
+  fetch('/like/' + postId, {method: 'POST'})
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      document.getElementById('like-count-' + postId).innerText = data.likes;
+    });
+}
+</script>
+{% endblock %}
