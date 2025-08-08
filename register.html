@@ -1,37 +1,189 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>회원가입</h2>
-<form method="post" class="row g-3">
-  <div class="col-md-6">
-    <label class="form-label">이름</label>
-    <input name="name" class="form-control" required>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .register-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      background-color: #fff;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+    }
+
+    .profile-image-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+    }
+
+    .profile-image-wrapper img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #ccc;
+    }
+
+    .camera-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: #333;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    form input,
+    form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .gender {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 12px;
+    }
+
+    .birth {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #222;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>회원가입</h2>
+
+    <!-- 프로필 사진 -->
+    <div class="profile-image-wrapper">
+      <label for="profileImage">
+        <img id="preview" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="프로필 이미지" />
+        <div class="camera-icon">📷</div>
+      </label>
+      <input type="file" id="profileImage" name="profile" accept="image/*" onchange="loadImage(event)" />
+    </div>
+
+    <form>
+      <input type="text" name="name" placeholder="이름" required />
+
+      <div class="gender">
+        <label><input type="radio" name="gender" value="남자" required /> 남자</label>
+        <label><input type="radio" name="gender" value="여자" required /> 여자</label>
+      </div>
+
+      <div class="birth">
+        <select name="year" id="birthYear" required>
+          <option value="">출생 연도</option>
+        </select>
+        <select name="month" required>
+          <option value="">월</option>
+          <script>
+            for (let m = 1; m <= 12; m++) {
+              document.write(`<option value=\"${m}\">${m}</option>`);
+            }
+          </script>
+        </select>
+        <select name="day" required>
+          <option value="">일</option>
+          <script>
+            for (let d = 1; d <= 31; d++) {
+              document.write(`<option value=\"${d}\">${d}</option>`);
+            }
+          </script>
+        </select>
+      </div>
+
+      <input type="text" id="age" placeholder="나이 (자동 계산)" readonly />
+
+      <input type="tel" name="phone" placeholder="전화번호 (숫자만 입력)" required pattern="[0-9]{10,11}" />
+      <input type="text" name="username" placeholder="아이디" required />
+      <input type="password" name="password" placeholder="비밀번호" required />
+      <input type="password" name="confirmPassword" placeholder="비밀번호 확인" required />
+      <input type="text" name="nickname" placeholder="닉네임" required />
+
+      <button type="submit">가입하기</button>
+    </form>
   </div>
-  <div class="col-md-6">
-    <label class="form-label">전화번호</label>
-    <input name="phone" class="form-control" required>
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">성별</label>
-    <input name="gender" class="form-control" required>
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">나이</label>
-    <input name="age" type="number" class="form-control" required>
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">직업</label>
-    <input name="job" class="form-control" required>
-  </div>
-  <div class="col-md-12">
-    <label class="form-label">지지정당</label>
-    <select name="party" class="form-select">
-      <option value="민주당">민주당</option>
-      <option value="국민의 힘">국민의 힘</option>
-      <option value="중도">중도</option>
-    </select>
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">가입</button>
-  </div>
-</form>
-{% endblock %}
+
+  <script>
+    function loadImage(event) {
+      const preview = document.getElementById('preview');
+      preview.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    // 출생연도 select에 연도 채우기
+    const yearSelect = document.getElementById('birthYear');
+    const ageInput = document.getElementById('age');
+    const currentYear = new Date().getFullYear();
+
+    for (let y = currentYear; y >= 1900; y--) {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      yearSelect.appendChild(opt);
+    }
+
+    // 나이 자동 계산
+    yearSelect.addEventListener('change', function () {
+      const birthYear = parseInt(this.value);
+      if (!isNaN(birthYear)) {
+        const age = currentYear - birthYear + 1; // 한국식 나이
+        ageInput.value = `${age}세`;
+      } else {
+        ageInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

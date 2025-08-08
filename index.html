@@ -1,153 +1,122 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container py-4">
-  <div class="row g-4 mb-4">
-    <!-- 단체 채팅방 카드 -->
-    <div class="col-md-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-center">
-          <div style="font-size:2.5rem;">💬</div>
-          <h5 class="card-title mt-2">단체 채팅방</h5>
-          <p class="card-text">모두가 참여하는 실시간 단체 채팅방입니다.</p>
-          <a href="/chatroom" class="btn btn-success w-100">입장하기</a>
-        </div>
-      </div>
-    </div>
-    <!-- 1:1 채팅방 카드 -->
-    <div class="col-md-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-center">
-          <div style="font-size:2.5rem;">👤</div>
-          <h5 class="card-title mt-2">익명 1:1 채팅방</h5>
-          <p class="card-text">익명으로 1:1 대화를 나눌 수 있는 공간입니다.</p>
-          <a href="#" onclick="showPrivateChatModal()" class="btn btn-primary w-100">입장하기</a>
-        </div>
-      </div>
-    </div>
-    <!-- 게시판 카드 -->
-    <div class="col-md-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-center">
-          <div style="font-size:2.5rem;">📰</div>
-          <h5 class="card-title mt-2">게시판</h5>
-          <p class="card-text">정치, 자유, 토론 등 다양한 게시판을 이용하세요.</p>
-          <a href="#post-list" class="btn btn-outline-secondary w-100">게시글 보기</a>
-        </div>
-      </div>
-    </div>
-    <!-- 마이페이지 카드 -->
-    <div class="col-md-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-center">
-          <div style="font-size:2.5rem;">🙍‍♂️</div>
-          <h5 class="card-title mt-2">마이페이지</h5>
-          <p class="card-text">내 정보, 내 글, 내 댓글을 확인할 수 있습니다.</p>
-          <a href="/mypage" class="btn btn-outline-info w-100">마이페이지</a>
-        </div>
-      </div>
-    </div>
-    <!-- 자료실 카드 -->
-    <div class="col-md-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-center">
-          <div style="font-size:2.5rem;">📁</div>
-          <h5 class="card-title mt-2">자료실</h5>
-          <p class="card-text">유용한 자료와 정보를 공유하는 공간입니다.</p>
-          <a href="#" class="btn btn-outline-warning w-100">자료실 가기</a>
-        </div>
-      </div>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>SocialBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 🔹 상단 네비게이션 바 -->
+  <header class="main-header">
+    <div class="nav-logo">SocialBridge</div>
+    <nav class="nav-links">
+    <div class="nav-search">
+  <input type="text" placeholder="검색어 입력">
+  <button class="search-icon" aria-label="검색"></button>
 </div>
 
-<!-- 1:1 채팅방 입장 모달 -->
-<div class="modal fade" id="privateChatModal" tabindex="-1" aria-labelledby="privateChatModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="privateChatModalLabel">1:1 채팅방 입장</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      <a href="#">채팅방</a>
+      <a href="#">커뮤니티</a>
+      <a href="#">문의</a>
+      <a href="login.html">로그인</a>
+      <a href="register.html">회원가입</a>
+
+  </nav>
+</header>
+
+    </nav>
+  </header>
+
+  <!-- 🔹 히어로 타이틀 -->
+  <section class="hero fade-in">
+    <h1 class="site-title">SocialBridge</h1>
+    <p class="subtitle">사회 커뮤니케이션 플랫폼</p>
+  </section>
+
+  <!-- 🔹 소개 카드 -->
+  <section class="container fade-in">
+    <h2 class="section-title">우리는 이런 플랫폼입니다</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>정책 토론</h3>
+        <p>다양한 의견과 아이디어를 제시하고 소통할 수 있는 공간입니다.</p>
       </div>
-      <div class="modal-body">
-        <input type="text" id="privateChatTarget" class="form-control" placeholder="상대방 닉네임 또는 이름 입력">
+      <div class="card">
+        <h3>소통의 장</h3>
+        <p>서로를 존중하는 분위기에서 토론을 합니다.</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary" onclick="goPrivateChat()">입장</button>
+      <div class="card">
+        <h3>투명한 운영</h3>
+        <p>정확한 팩트와 커뮤니티 자율성을 기반으로 운영됩니다.</p>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<div id="post-list" class="container mt-5">
-  <h3 class="mb-4">게시글 목록</h3>
-  <div class="row g-4">
-    {% for post in posts %}
-    <div class="col-md-6 col-lg-4">
-      <div class="card h-100 border-0 shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <h5 class="card-title mb-0"><a href="/post/{{ post.id }}">{{ post.title }}</a></h5>
-            <span class="badge bg-info text-dark">좋아요 <span id="like-count-{{ post.id }}">{{ post.likes }}</span></span>
-          </div>
-          <p class="card-text text-secondary">{{ post.content[:80] }}{% if post.content|length > 80 %}...{% endif %}</p>
-          <div class="mb-2">
-            <span class="badge bg-secondary">출처: {{ post.source }}</span>
-            <span class="badge bg-light text-dark">작성일: {{ post.created_at.strftime('%Y-%m-%d') }}</span>
-            <span class="badge bg-primary">작성자: {{ post.user.name if post.user else post.user_id }}</span>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-danger" onclick="likePost('{{ post.id }}')">좋아요</button>
-            {% if session.get('user_id') == post.user_id %}
-            <form method="post" action="/delete/{{ post.id }}" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-              <button type="submit" class="btn btn-sm btn-outline-secondary ms-2">삭제</button>
-            </form>
-            {% endif %}
-            <a href="/chat/{{ post.title }}" class="btn btn-sm btn-success ms-2">이 글 주제 채팅방</a>
-            {% if post.user_id and session.get('user_id') != post.user_id %}
-            <a href="/chat/{{ post.user.name if post.user else post.user_id }}" class="btn btn-sm btn-outline-primary ms-2">작성자와 1:1 채팅</a>
-            {% endif %}
-          </div>
+  <!-- 🔹 배너 -->
+  <section class="banner fade-in">
+    <div class="text-box">
+      <h3>정확한 정보로 대화하세요</h3>
+      <p>가짜 뉴스에 휘둘리지 않고, 근거 있는 주장으로 신뢰를 만들어 갑니다.</p>
+    </div>
+    <img src="images/뉴스.png" alt="정확한 정보 배너 이미지">
+
+  </section>
+
+  <!-- 🔹 최신 뉴스 -->
+  <section class="container fade-in">
+    <h2 class="section-title">최신 뉴스</h2>
+    <div class="news-container">
+      <div class="news-card">
+        <img src="images/소통.png" alt="뉴스1">
+        <div class="content">
+          <h4>다양한 대담</h4>
+          <p>다양한 연령층과의 소통을 통해 생생한 이야기를 들어보세요.</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <img src="images/프로젝트.png" alt="뉴스2">
+        <div class="content">
+          <h4>정책 공론화 프로젝트</h4>
+          <p>회원들이 직접 참여하는 정책 아이디어 제안!</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <img src="images/캠페인.png" alt="뉴스3">
+        <div class="content">
+          <h4>소셜 커뮤니케이션 캠페인</h4>
+          <p>온라인 커뮤니케이션 캠페인을 확인해보세요.</p>
         </div>
       </div>
     </div>
-    {% else %}
-    <p>게시물이 없습니다.</p>
-    {% endfor %}
-  </div>
-</div>
+  </section>
 
-<div class="mt-5">
-  <h3>실시간 인기 검색어</h3>
-  <div class="d-flex flex-wrap gap-2">
-    {% for kw in trending_keywords %}
-      <a href="/search/{{ kw }}" class="btn btn-outline-primary">{{ kw }}</a>
-      <a href="/chat/{{ kw }}" class="btn btn-outline-success">채팅방</a>
-    {% endfor %}
-  </div>
-</div>
-<script type="text/javascript">
-function likePost(postId) {
-  fetch('/like/' + postId, {method: 'POST'})
-    .then(function(response) { return response.json(); })
-    .then(function(data) {
-      document.getElementById('like-count-' + postId).innerText = data.likes;
+  <!-- 🔹 푸터 -->
+  <footer>
+    © 2025 SocialBridge
+  </footer>
+
+  <!-- 🔹 섹션 등장 애니메이션 -->
+  <script>
+    const fadeEls = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1
     });
-}
 
-// 1:1 채팅방 모달
-function showPrivateChatModal() {
-  var modal = new bootstrap.Modal(document.getElementById('privateChatModal'));
-  document.getElementById('privateChatTarget').value = '';
-  modal.show();
-}
-function goPrivateChat() {
-  var target = document.getElementById('privateChatTarget').value.trim();
-  if(target) {
-    window.location.href = '/chat/' + encodeURIComponent(target);
-  }
-}
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
 
-</script>
-{% endblock %}
+</body>
+</html>
 
