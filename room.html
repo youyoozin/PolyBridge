@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>채팅방</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body class="room-page">
+  <div class="room-grid">
+    <aside class="topics">
+      <strong class="topics-title">주제</strong>
+      <ul id="topicList">
+        <!-- 주제 목록 동적 생성 -->
+      </ul>
+    </aside>
+    <main class="room-main">
+      <div class="site">
+        <header class="room-bar">
+          <h2 class="room-title">채팅방 목록</h2>
+          <button id="newOpinion">+ 새로운 의견</button>
+        </header>
+        <section class="room-cards">
+          <div class="card-grid">
+            <!-- 카드 예시, JS로 동적 생성 가능 -->
+            <article class="chat-card">
+              <div class="card-head">
+                <img class="avatar" src="./assets/default-profile.png" alt="프로필" />
+                <div class="meta">
+                  <span class="nick">홍길동</span>
+                  <span class="bulb on" aria-label="presence" title="접속 상태">💡</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="claim-text">이것은 한 줄짜리 주장입니다.</p>
+              </div>
+            </article>
+            <article class="chat-card">
+              <div class="card-head">
+                <img class="avatar" src="./assets/default-profile.png" alt="프로필" />
+                <div class="meta">
+                  <span class="nick">김철수</span>
+                  <span class="bulb off" aria-label="presence" title="접속 상태">💡</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="claim-text">이청년층의 주거 안정은 단순한 복지가 아니라 국가 경쟁력의 핵심입니다. 안정적인 거주 환경이 마련되어야 교육과 취업, 결혼 등 삶의 중요한 선택이 가능해지고 사회 전반의 활력이 살아납니다.</p>
+              </div>
+            </article>
+            <!-- 추가 카드들 -->
+          </div>
+        </section>
+      </div>
+      <!-- 새로운 의견 오버레이 모달 (main 내부로 이동) -->
+      <div class="overlay" id="opinionOverlay" hidden aria-hidden="true">
+        <div class="opinion-modal" id="opinionModal" role="dialog" aria-modal="true" aria-labelledby="opinionModalTitle">
+          <header class="opinion-modal-header">
+            <div class="opinion-author">
+            <img class="avatar" id="opinionAvatar" src="./assets/default-profile.png" alt="프로필" style="width:32px;height:32px;border-radius:50%;margin-right:8px;">
+            <span class="nick" id="opinionNick">닉네임</span>
+            </div>
+            <div class="opinion-modal-actions">
+              <button id="opinionShare" type="button" title="공유">🔗</button>
+              <button id="opinionClose" type="button" title="닫기">✕</button>
+            </div>
+          </header>
+          <div class="opinion-modal-body">
+            <label for="opinionClaim">당신의 생각을 간단히 적성해주세요.</label>
+            <div style="display:flex;align-items:center;gap:8px;position:relative;">
+              <input id="opinionClaim" maxlength="100" autocomplete="off" />
+              <span id="opinionCounter" style="position:absolute;right:8px;top:8px;font-size:12px;color:#666;">0/100</span>
+            </div>
+            <label for="opinionReason" style="margin-top:16px;display:block;">그 이유는 무엇인가요?</label>
+            <textarea id="opinionReason" rows="3"></textarea>
+            <label for="opinionSource" style="margin-top:16px;display:block;">관련 근거나 사례가 있다면 알려주세요.</label>
+            <textarea id="opinionSource" rows="2" placeholder="예: 뉴스 기사 URL, 관련 논문 등"></textarea>
+          </div>
+          <footer class="opinion-modal-footer">
+            <button id="opinionSubmit" type="button">등록</button>
+          </footer>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./js/room.js"></script>
+</body> 
+</html>
+
+
